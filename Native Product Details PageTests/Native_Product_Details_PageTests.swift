@@ -21,6 +21,33 @@ class Native_Product_Details_PageTests: XCTestCase {
         super.tearDown()
     }
     
+    func testIsAlive() {
+        
+        print("Making request")
+        
+        let expectation = expectationWithDescription("Getting data")
+
+        let productService = MSProductService(baseURL: "http://product-catalog.mnsdigitallabs.net")
+        
+        productService.product(productID: "P22386849") {
+            (product) -> Void in
+            
+            if let productDescription = product?.description2 {
+                print(productDescription)
+
+                print(product!.priceSummary.description)
+            }
+            
+            expectation.fulfill()
+        }
+
+        waitForExpectationsWithTimeout(10) { (error) -> Void in
+            if let error = error {
+                print("Error: \(error.localizedDescription)")
+            }
+        }
+    }
+    
     func testExample() {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
